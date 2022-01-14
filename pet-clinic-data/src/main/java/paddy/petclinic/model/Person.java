@@ -1,4 +1,4 @@
-package paddy.springframework.petclinic.model;
+package paddy.petclinic.model;
 
 public class Person {
     private String firstName;
