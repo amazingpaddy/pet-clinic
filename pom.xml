@@ -14,7 +14,7 @@
     </parent>
     <groupId>paddy.springframework</groupId>
     <artifactId>pet-clinic</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>pet-clinic</name>
     <description>pet-clinic</description>
     <properties>
@@ -49,6 +49,7 @@
         <developerConnection>
             scm:git:git@github.com:amazingpaddy/pet-clinic.git
         </developerConnection>
+    <tag>pet-clinic-0.0.2</tag>
   </scm>
 
 </project>
