@@ -49,7 +49,6 @@
         <developerConnection>
             scm:git:git@github.com:amazingpaddy/pet-clinic.git
         </developerConnection>
-      <tag>HEAD</tag>
   </scm>
 
 </project>
