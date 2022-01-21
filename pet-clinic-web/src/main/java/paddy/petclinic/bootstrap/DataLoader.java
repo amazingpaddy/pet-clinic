@@ -6,22 +6,20 @@ import paddy.petclinic.model.Owner;
 import paddy.petclinic.model.Vet;
 import paddy.petclinic.services.OwnerService;
 import paddy.petclinic.services.VetService;
-import paddy.petclinic.services.map.OwnerServiceMap;
-import paddy.petclinic.services.map.VetServiceMap;
 
 @Component
 public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
 
-    public DataLoader() {
-        ownerService = new OwnerServiceMap();
-        vetService = new VetServiceMap();
+    public DataLoader(OwnerService ownerService, VetService vetService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Loadiing Owners...");
+        System.out.println("Loading Owners...");
         Owner paddy = new Owner();
         paddy.setId(1L);
         paddy.setFirstName("Padmanabhan");
