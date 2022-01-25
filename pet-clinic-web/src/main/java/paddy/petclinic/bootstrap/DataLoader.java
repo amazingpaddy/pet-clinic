@@ -3,11 +3,14 @@ package paddy.petclinic.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import paddy.petclinic.model.Owner;
+import paddy.petclinic.model.Pet;
 import paddy.petclinic.model.PetType;
 import paddy.petclinic.model.Vet;
 import paddy.petclinic.services.OwnerService;
 import paddy.petclinic.services.PetTypeService;
 import paddy.petclinic.services.VetService;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -37,11 +40,35 @@ public class DataLoader implements CommandLineRunner {
         paddy.setId(1L);
         paddy.setFirstName("Padmanabhan");
         paddy.setLastName("Vijendran");
+        paddy.setAddress("Hurontario Street");
+        paddy.setCity("Toronto");
+        paddy.setTelephone("123456");
+
+        Pet paddyPet = new Pet();
+        paddyPet.setName("jhonny");
+        paddyPet.setPetType(savedDogType);
+        paddyPet.setOwner(paddy);
+        paddyPet.setBirthDate(LocalDate.of(2019, 10, 5));
+        paddy.getPets().add(paddyPet);
         ownerService.save(paddy);
+
+
         Owner uma = new Owner();
         uma.setId(2L);
         uma.setFirstName("Uma");
-        uma.setLastName("Mahe");
+        uma.setLastName("Maheswari");
+        uma.setAddress("Serangoon Street");
+        uma.setCity("Singapore");
+        uma.setTelephone("123456");
+
+        Pet umaPet = new Pet();
+        umaPet.setName("rowdy");
+        umaPet.setPetType(savedDogType);
+        umaPet.setOwner(uma);
+        umaPet.setBirthDate(LocalDate.of(2018, 6, 3));
+        uma.getPets().add(umaPet);
+        ownerService.save(paddy);
+
         ownerService.save(uma);
         System.out.println("Loading Vets ....");
         Vet vet1 = new Vet();
