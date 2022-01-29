@@ -3,10 +3,7 @@ package paddy.petclinic.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import paddy.petclinic.model.*;
-import paddy.petclinic.services.OwnerService;
-import paddy.petclinic.services.PetTypeService;
-import paddy.petclinic.services.SpecialtyService;
-import paddy.petclinic.services.VetService;
+import paddy.petclinic.services.*;
 
 import java.time.LocalDate;
 
@@ -16,16 +13,19 @@ public class DataLoader implements CommandLineRunner {
   private final VetService vetService;
   private final PetTypeService petTypeService;
   private final SpecialtyService specialtyService;
+  private final VisitService visitService;
 
   public DataLoader(
       OwnerService ownerService,
       VetService vetService,
       PetTypeService petTypeService,
-      SpecialtyService specialtyService) {
+      SpecialtyService specialtyService,
+      VisitService visitService) {
     this.ownerService = ownerService;
     this.vetService = vetService;
     this.petTypeService = petTypeService;
     this.specialtyService = specialtyService;
+    this.visitService = visitService;
   }
 
   @Override
@@ -87,19 +87,13 @@ public class DataLoader implements CommandLineRunner {
     umaPet.setOwner(uma);
     umaPet.setBirthDate(LocalDate.of(2018, 6, 3));
     uma.getPets().add(umaPet);
+    ownerService.save(uma);
 
-    // Adding visit before saving the uma (Owner) since owner will cascade downwards (owner -> pet
-    // -> visits)
     Visit rowdyVisit = new Visit();
     rowdyVisit.setDate(LocalDate.now());
     rowdyVisit.setDescription("Regular Checkup");
     rowdyVisit.setPet(umaPet);
-
-    umaPet
-        .getVisits()
-        .add(rowdyVisit); // we need to update the umaPet with visits in order to cascade to visits
-
-    ownerService.save(uma);
+    visitService.save(rowdyVisit);
 
     System.out.println("Loading Vets ....");
     Vet vet1 = new Vet();
