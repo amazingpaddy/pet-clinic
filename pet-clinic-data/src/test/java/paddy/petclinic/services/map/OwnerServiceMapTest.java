@@ -49,7 +49,7 @@ class OwnerServiceMapTest {
 
   @Test
   void findByLastName() {
-    assertEquals(lastName, ownerService.findByLastName(lastName).getLastName());
+    assertEquals(lastName, ownerService.findByLastName(lastName).iterator().next().getLastName());
   }
 
   @Test

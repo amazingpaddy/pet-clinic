@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
@@ -36,31 +37,11 @@ class OwnerControllerTest {
   }
 
   @Test
-  void listOwners() throws Exception {
-    when(ownerService.findAll()).thenReturn(owners);
-    mockMvc
-        .perform(MockMvcRequestBuilders.get("/owners"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("owner/index"))
-        .andExpect(MockMvcResultMatchers.model().attribute("owners", hasSize(2)));
-  }
-
-  @Test
-  void listOwnersByIndex() throws Exception {
-    when(ownerService.findAll()).thenReturn(owners);
-    mockMvc
-        .perform(MockMvcRequestBuilders.get("/owners/index"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("owner/index"))
-        .andExpect(MockMvcResultMatchers.model().attribute("owners", hasSize(2)));
-  }
-
-  @Test
   void findOwners() throws Exception {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/owners/find"))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("notimplemented"));
+        .andExpect(MockMvcResultMatchers.view().name("owner/findOwners"));
     verifyNoInteractions(ownerService);
   }
 
@@ -72,5 +53,31 @@ class OwnerControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.view().name("owner/ownerDetails"))
         .andExpect(MockMvcResultMatchers.model().attribute("owner", hasProperty("id", is(1L))));
+  }
+
+  @Test
+  void findByLastNameManyTest() throws Exception {
+    when(ownerService.findOwnerByLastNameLike(anyString()))
+        .thenReturn(
+            Set.of(
+                Owner.builder().id(1L).lastName("test").build(),
+                Owner.builder().id(2L).lastName("test").build()));
+
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/owners/"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.view().name("owner/ownersList"))
+        .andExpect(MockMvcResultMatchers.model().attribute("selections", hasSize(2)));
+  }
+
+  @Test
+  void findByLastNameOneTest() throws Exception {
+    when(ownerService.findOwnerByLastNameLike(anyString()))
+        .thenReturn(Set.of(Owner.builder().id(1L).build()));
+
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/owners"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.view().name("redirect:/owners/1"));
   }
 }

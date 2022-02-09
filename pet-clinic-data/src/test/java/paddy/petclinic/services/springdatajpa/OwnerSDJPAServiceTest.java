@@ -67,8 +67,9 @@ class OwnerSDJPAServiceTest {
 
   @Test
   void findByLastName() {
-    when(ownerRepository.findOwnerByLastName(anyString())).thenReturn(returnOwner);
-    assertEquals(lastName, ownerSDJPAService.findByLastName(lastName).getLastName());
+    when(ownerRepository.findOwnerByLastName(anyString())).thenReturn(Set.of(returnOwner));
+    assertEquals(
+        lastName, ownerSDJPAService.findByLastName(lastName).iterator().next().getLastName());
   }
 
   private Owner createOwner(long id) {
