@@ -44,6 +44,7 @@ public class OwnerController {
 
   @GetMapping
   public String processFindForm(Owner owner, BindingResult result, Model model) {
+    log.info("Owner inside - process forum - {}", owner.getId());
     if (Objects.isNull(owner.getLastName())) {
       owner.setLastName(StringUtils.EMPTY);
     }
