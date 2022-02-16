@@ -80,9 +80,8 @@ public class Owner extends Person {
     return null;
   }
 
-  public Owner addVisit(Long petId, Visit visit) {
+  public void addVisit(Long petId, Visit visit) {
     Pet pet = getPet(petId);
     pet.getVisits().add(visit);
-    return this;
   }
 }
