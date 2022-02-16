@@ -1,9 +1,11 @@
 package paddy.petclinic.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,6 +41,17 @@ public class Pet extends BaseEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
   private Set<Visit> visits = new HashSet<>();
+
+  @Builder
+  public Pet(
+      Long id, String name, PetType petType, Owner owner, LocalDate birthDate, Set<Visit> visits) {
+    super(id);
+    this.name = name;
+    this.petType = petType;
+    this.owner = owner;
+    this.birthDate = birthDate;
+    if (CollectionUtils.isNotEmpty(visits)) this.visits = visits;
+  }
 
   @Override
   public String toString() {

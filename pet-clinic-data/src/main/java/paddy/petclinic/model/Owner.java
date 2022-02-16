@@ -63,4 +63,26 @@ public class Owner extends Person {
     }
     return null;
   }
+  /**
+   * Return the Pet with the given id, or null if none found for this Owner.
+   *
+   * @return a pet if pet id is already in use
+   */
+  public Pet getPet(Long id) {
+    for (Pet pet : getPets()) {
+      if (!pet.isNew()) {
+        Long compId = pet.getId();
+        if (compId.equals(id)) {
+          return pet;
+        }
+      }
+    }
+    return null;
+  }
+
+  public Owner addVisit(Long petId, Visit visit) {
+    Pet pet = getPet(petId);
+    pet.getVisits().add(visit);
+    return this;
+  }
 }
