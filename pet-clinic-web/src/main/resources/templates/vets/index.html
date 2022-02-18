@@ -9,16 +9,16 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Id</th>
         <th>First Name</th>
-        <th>Last Name</th>
+        <th>Speciality</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="vet : ${vets}">
-        <td th:text="${vet.getId()}"></td>
-        <td th:text="${vet.getFirstName()}"></td>
-        <td th:text="${vet.getLastName()}"></td>
+        <td th:text="${vet.firstName + ' ' + vet.lastName}"></td>
+        <td><span th:each="specialty : ${vet.specialties}"
+                  th:text="${specialty.getDescription() + '   '}"></span> <span
+                th:if="${vet?.getSpecialties()?.size() == 0}">none</span></td>
     </tr>
     </tbody>
 </table>
